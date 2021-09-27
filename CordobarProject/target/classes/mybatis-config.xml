@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<typeAliases> 
+<!-- 회원정보 및 회원가입 Dto -->
+<typeAlias type="com.spring.ex.dto.MemberDto" alias="MemberDto"/> 
+<!--MemberDto를 써야하는데 기니까 MemberDto라고 alias라고 선언 --><!--그후 Mappers에 mapper.xml-->
+
+</typeAliases>
+</configuration> 
