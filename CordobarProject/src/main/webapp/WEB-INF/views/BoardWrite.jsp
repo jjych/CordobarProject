@@ -24,20 +24,7 @@
     
     <body id="page-top">
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
-            <div class="container">
-                <a class="navbar-brand" href="#page-top">코르도바 게시판 프로젝트</a>
-                <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="main">로그아웃</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <%@ include file="/WEB-INF/views/nav.jsp" %>
         
         <!-- BoardWrite Section-->
         <section class="masthead text-white text-center">
@@ -45,7 +32,7 @@
             	<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">글쓰기</h2>
 				<br>
 				<form method="post" action="writeAction">
-					<input type="hidden" id = "mName" name="mName" value="${member.mName }">
+					<input type="hidden" id = "mName" name="mName" value="${member.mId }">
 					<div class="" style="text-align:center;">
 						<table class="table" style="text-align: center; border: 1px solid #dddddd; background-color: #eeeeee;">
 							<thead>

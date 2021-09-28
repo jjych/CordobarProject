@@ -6,6 +6,8 @@ public class MemberDto {
 	private String mId;
 	// 비밀번호
 	private String mPw;
+	// 이름
+	private String mName;
 	
 	public String getmId() {
 		return mId;
@@ -18,6 +20,12 @@ public class MemberDto {
 	}
 	public void setmPw(String mPw) {
 		this.mPw = mPw;
+	}
+	public String getmName() {
+		return mName;
+	}
+	public void setmName(String mName) {
+		this.mName = mName;
 	}
 	
 	public String login() {

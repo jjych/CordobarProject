@@ -22,46 +22,15 @@
     
     <body id="page-top">
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
-        <c:if test="${member == null }">
+        <%@ include file="/WEB-INF/views/nav.jsp" %>
+        
+         <%-- <c:if test="${member == null }">
 					<c:if test="${msg == false }">
 						<script>
 							alert("아이디 혹은 비밀번호가 틀립니다")
 						</script>
 					</c:if>
-		</c:if>
-            <div class="container">
-                <a class="navbar-brand" href="#page-top">코르도바 게시판 프로젝트</a>
-                <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="main">로그인</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        
-        <!-- Masthead-->
-        <!-- <header class="masthead bg-primary text-white text-center">
-            <div class="container d-flex align-items-center flex-column">
-                Masthead Avatar Image
-                <img class="masthead-avatar mb-5" src="assets/img/avataaars.svg" alt="..." />
-                Masthead Heading
-                <h1 class="masthead-heading text-uppercase mb-0">Start Bootstrap</h1>
-                Icon Divider
-                <div class="divider-custom divider-light">
-                    <div class="divider-custom-line"></div>
-                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                    <div class="divider-custom-line"></div>
-                </div>
-                Masthead Subheading
-                <p class="masthead-subheading font-weight-light mb-0">Graphic Artist - Web Designer - Illustrator</p>
-            </div>
-        </header> -->
-        
+		</c:if> --%>
         <!-- Login Section-->
         <section class="masthead text-white text-center">
             <div class="container">

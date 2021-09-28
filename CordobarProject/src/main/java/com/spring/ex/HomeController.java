@@ -19,9 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.spring.ex.dto.MemberDto;
 import com.spring.ex.service.ServiceProject;
 
-/**
- * Handles requests for the application home page.
- */
 @Controller
 public class HomeController {
 	
