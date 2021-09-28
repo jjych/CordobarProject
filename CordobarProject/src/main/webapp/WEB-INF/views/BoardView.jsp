@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -57,36 +58,70 @@
 							<td style="width: 20%;">작성자</td>
 							<td style="width: 30%;">작성일</td>
 						</tr>
-						<%-- <c:forEach items="${boardList}" var="board"> --%>
-						<form action="CustomerWriteAnswer" method="post">
+						<c:forEach items="${boardList}" var="board">
+						<form action="BoardLook" method="post">
 						 <input type="hidden" id="bNum" name="bNum" value="${board.getbNum() }">
 							<tr>
-							<%-- <td>${board.getbNum() }</td>
-							<td>
-								<input type="submit" class="btn" value="${board.getbTitle() }" style="height:30px; position:relative; top:-8px; color: #004d99;" >				
-							</td>
-							<td>${board.getmName() }</td>
-							<td>${board.getbDate() }</td> --%>
-								<td>2</td>
-								<td>테스트입니다.</td>
-								<td>관리자</td>
-								<td>2021.09.27</td>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td>테스트입니다.</td>
-								<td>관리자</td>
-								<td>2021.09.27</td>
+								<td>${board.getbNum() }</td>
+								<td><input type="submit" class="btn" value="${board.getbTitle() }" ></td>
+								<%-- <td>${board.getbTitle() }</td> --%>
+								<td>${board.getmName() }</td>
+								<td>${board.getbDate() }</td>
+								
 							</tr>
 						</form>
-						<%-- </c:forEach> --%>
+						</c:forEach>
 					</tbody>
-				</table>
+			</table>
 				
-				<!-- 글쓰기 버튼 -->
-				<div style="text-align:right;">
-						<a href="BoardWrite" class="btn btn-info">글쓰기</a>
-				</div>
+			<!-- 글쓰기 버튼 -->
+			<div style="text-align:right;">
+					<a href="BoardWrite" class="btn btn-info">글쓰기</a>
+			</div>
+				
+			<!-- 게시글 페이징 처리(기준 10개) -->
+			<nav aria-label="Page navigation">
+				<ul class="pagination justify-content-center">
+
+				<!-- 첫 페이지면 Disabled 아니라면 Enabled -->
+				<c:choose>
+					<c:when test="${Paging.pageNo eq Paging.firstPageNo }">
+						<li class="page-item disabled"><a class="page-link"
+							href="BoardView?page=${Paging.prevPageNo}">이전</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link"
+							href="BoardView?page=${Paging.prevPageNo}">이전</a></li>
+					</c:otherwise>
+				</c:choose>
+				<!-- 페이지 갯수만큼 버튼 생성 -->
+				<c:forEach var="i" begin="${Paging.startPageNo }"
+					end="${Paging.endPageNo }" step="1">
+					<c:choose>
+						<c:when test="${i eq Paging.pageNo }">
+							<li class="page-item disabled"><a class="page-link"
+								href="BoardView?page=${i}"><c:out value="${i}" /></a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item"><a class="page-link"
+								href="BoardView?page=${i}"><c:out value="${i}" /></a></li>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+				
+				<!-- 마지막 페이지면 Disabled 아니라면 Enabled -->
+				<c:choose>
+					<c:when test="${Paging.pageNo eq Paging.finalPageNo }">
+						<li class="page-item disabled"><a class="page-link"
+							href="BoardView?page=${Paging.nextPageNo}">다음</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link"
+							href="BoardView?page=${Paging.nextPageNo}">다음</a></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+			</nav>
 			</div>
         </section>
         

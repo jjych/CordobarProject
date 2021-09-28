@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -44,20 +45,20 @@
                  <!-- 글내용 -->
                  <tbody>
                      <tr>
-                         <td colspan="4">테스트입니다.</td>
-                         <td>관리자</td>
-                         <td>2021.09.27</td>
+                         <td colspan="4">${board.getbTitle() }</td>
+                         <td>${board.getmName() }</td>
+                         <td>${board.getbDate() }</td>
                      </tr>
                      <tr>
                          <td colspan="6" style="height: 300px; text-align: left;">
-                         	임시로 써놓은 글입니다.
+                         	${board.getbNote() }
                          </td>
                      </tr>
                      
                      <!-- 사진이미지 보이게하기 -->
                      <tr>
                          <td colspan="6" style="height: 300px; background-color: #eeeeee; text-align: left;">
-                         	사진이 들어갈곳입니다.
+                         	${board.getbImg() }
                          </td>
                      </tr>
                  </tbody>
@@ -65,21 +66,28 @@
             
             <!-- 이동버튼 -->
             <div class ="contanier" style="float:right;">
-            <form action="boardDelete2" method="POST">
-           		<%-- <input type="hidden" id="bNum" name="bNum" value="${board.getbNum()}">
             	<c:choose>
 					<c:when test="${board.getmName() eq sessionScope.member.getmName()}">
-       					<input type="submit" class="btn btn-primary" value="삭제" style="position:relative; left:1010px;">
-              	 		<a href="CustomerWriteView" class="btn btn-primary" style="position:relative; left:1020px;">목록</a>
+						<form action="boardDelete" method="POST" style="display:inline;" name = "form">
+           					<input type="hidden" id="bNum" name="bNum" value="${board.getbNum()}">
+       						<input type="button" class="btn btn-primary" value="삭제" onclick="Delete()">
+       						<script>
+									function Delete() {
+										if (confirm("정말 삭제 하시겠습니까??") == true) { //확인
+											document.form.submit();
+										} else { //취소
+											return false;
+										}
+									}
+							</script>
+       					</form>
+						<a href="BoardUpdate" class="btn btn-primary">수정</a>
+              			<a href="BoardView" class="btn btn-primary">목록</a>
     				</c:when>
     				<c:when test="${board.getmName() ne sessionScope.member.getmName()}">
-        			 	<a href="CustomerWriteView" class="btn btn-primary" style="position:relative; left:1080px;">목록</a>
+        			 	<a href="BoardView" class="btn btn-primary">목록</a>
     				</c:when>
-				</c:choose> --%>
-				<input type="submit" class="btn btn-primary" value="삭제">
-				<a href="CustomerWriteView" class="btn btn-primary">수정</a>
-              	<a href="BoardView" class="btn btn-primary">목록</a>
-            </form>
+				</c:choose>
             </div>
 			</div>
         </section>

@@ -7,5 +7,17 @@
 	select * from member where mId = #{mId} and mPw = #{mPw}
 </select>
 
+<!-- 게시판 페이징리스트 -->
+<select id="BoardList" resultType="BoardDto">SELECT * FROM board ORDER BY bNum DESC LIMIT #{Page}, #{PageSize}</select>
+
+<!-- 게시판 토탈 카운트 -->
+<select id="boardTotalCount" resultType="int">SELECT COUNT(*) from board </select>
+
+<!-- 게시판 목록 세션값 select문 -->
+<select id="board2" resultType="BoardDto">SELECT * from board where bNum = #{bNum} </select>
+
+<!-- 고객문의 게시글 삭제 delete문 -->
+<delete id="boardDelete"> delete from board where bNum = #{bNum} </delete>
+
 </mapper>
 

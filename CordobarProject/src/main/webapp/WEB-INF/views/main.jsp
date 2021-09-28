@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -24,13 +25,6 @@
         <!-- Navigation-->
         <%@ include file="/WEB-INF/views/nav.jsp" %>
         
-         <%-- <c:if test="${member == null }">
-					<c:if test="${msg == false }">
-						<script>
-							alert("아이디 혹은 비밀번호가 틀립니다")
-						</script>
-					</c:if>
-		</c:if> --%>
         <!-- Login Section-->
         <section class="masthead text-white text-center">
             <div class="container">
@@ -46,6 +40,10 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-7">
                         <form method="post" action="LoginSuccess">
+                        <c:if test = "${msg3 == false }">
+            				
+            				
+            			</c:if>
                             <!-- ID input-->
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="mId" name = "mId" type="text"/>
