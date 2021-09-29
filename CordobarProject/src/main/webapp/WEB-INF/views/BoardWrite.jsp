@@ -32,8 +32,8 @@
             <div class="container">
             	<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">글쓰기</h2>
 				<br>
-				<form method="post" action="writeAction">
-					<input type="hidden" id = "mName" name="mName" value="${member.mId }">
+				<form method="post" action="writeAction" enctype="multipart/form-data">
+					<input type="hidden" id = "mName" name="mName" value="${member.mName }">
 					<div class="" style="text-align:center;">
 						<table class="table" style="text-align: center; border: 1px solid #dddddd; background-color: #eeeeee;">
 							<thead>
@@ -43,18 +43,32 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td colspan="5">
+									<td>제목</td>
+									<td colspan="4">
 										<input type="text" class="form-control" placeholder="글 제목" id="bTitle" name="bTitle" maxlength="50" />
 									</td>
 								</tr>
 								<tr>
-									<td colspan="5">
+									<td>내용</td>
+									<td colspan="4">
 										<textarea class="form-control" placeholder="글 내용" id="bNote" name="bNote" maxlength="2048px;" style="height: 350px; resize: none;"></textarea>
 									</td>
 								</tr>
 								<tr>
-									<td colspan="5" style="text-align:left;">
-										<input type="file" name="file" id="imageFileOpenInput" accept="image/*">
+									<td>첨부파일</td>
+									<td colspan="4" style="text-align:left;">
+										<input type="file" id="bImg" name="file" accept="image/*">
+										<script>
+											$("#bImg").change(function(){
+												if(this.files && this.files[0]) {
+											var reader = new FileReader;
+											reader.onload = function(data) {
+												$(".select_img img").attr("src", data.target.result).width(500);        
+											}
+											reader.readAsDataURL(this.files[0]);
+											}
+											});
+										</script>
 									</td>
 								</tr>
 							</tbody>

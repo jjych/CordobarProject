@@ -25,4 +25,13 @@ public interface MemberDao {
 	
 	// 게시글 삭제 dto
 	public void boardDelete(BoardDto bddto) throws Exception;
+	
+	// 글쓰기
+	public void writeAction(BoardDto bwrite) throws Exception;
+	
+	// 글수정 dto
+	public void BoardUpdate(BoardDto budto) throws Exception;
+	
+	//검색기능
+	public List<BoardDto> boardSearch(String keyword) throws Exception;
 }

@@ -32,8 +32,9 @@
             <div class="container">
             	<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">글수정</h2>
 				<br>
-				<form method="post" action="writeAction">
-					<input type="hidden" id = "mName" name="mName" value="${member.mId }">
+				<form method="post" action="boardUpdate" enctype="multipart/form-data">
+					<input type="hidden" id = "bNum" name="bNum" value="${board.bNum }">
+					<input type="hidden" id = "mName" name="mName" value = "${member.mName }">
 					<div class="" style="text-align:center;">
 						<table class="table" style="text-align: center; border: 1px solid #dddddd; background-color: #eeeeee;">
 							<thead>
@@ -43,19 +44,52 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td colspan="5">
-										<input type="text" class="form-control" placeholder="적혀있던 글 제목" id="bTitle" name="bTitle" maxlength="50" />
+									<td>
+										제목
+									</td>
+									<td colspan="4">
+										<input type="text" class="form-control" value="${board.getbTitle() }" id="bTitle" name="bTitle" maxlength="50" />
 									</td>
 								</tr>
 								<tr>
-									<td colspan="5">
-										<textarea class="form-control" placeholder="적혀있던 글 내용" id="bNote" name="bNote" maxlength="2048px;" style="height: 350px; resize: none;"></textarea>
+									<td>
+										내용
+									</td>
+									<td colspan="4">
+										<textarea class="form-control" id="bNote" name="bNote" maxlength="2048px;" style="height: 350px; resize: none;">${board.getbNote() }</textarea>
 									</td>
 								</tr>
 								<tr>
-									<td colspan="5" style="text-align:left;">
-										<input type="file" name="file" id="imageFileOpenInput" accept="image/*">
+									<td>
+										첨부파일
 									</td>
+									<td colspan="4">
+										<input type="file" id="bImg" name="file" accept="image/*">
+										<script>
+											$("#bImg").change(function(){
+												if(this.files && this.files[0]) {
+													var reader = new FileReader;
+													reader.onload = function(data) {
+														$(".select_img img").attr("src", data.target.result).width(500);        
+													}
+													reader.readAsDataURL(this.files[0]);
+												}
+											});
+										</script>
+									</td>
+								</tr>
+								<tr>
+									<c:choose>
+										<c:when test = "${board.getbImg() eq null }">
+										</c:when>
+										<c:when test = "${board.getbImg() ne null }">
+										<td colspan = "5" style="text-align:center;">
+											<img class="img-fluid"
+											src="resources/assets/img${board.getbImg() }"
+											style="width: 300px; height: 300px;" />
+										</td>
+										</c:when>
+									</c:choose>
 								</tr>
 							</tbody>
 						</table>

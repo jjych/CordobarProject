@@ -60,6 +60,11 @@ public class BoardDto {
 		this.bImg = bImg;
 	}
 	
+	@Override
+	public String toString() {
+		return "BoardDto[bNum=" + bNum + ", mName=" + mName + ", bTitle=" + bTitle + ", bNote=" + bNote + 
+				", bDate=" + bDate + ", bUrl=" + bUrl + ", bImg=" + bImg + "]";
+	}
 	
 	
 }

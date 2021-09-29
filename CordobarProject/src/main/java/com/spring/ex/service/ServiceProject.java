@@ -44,4 +44,23 @@ public class ServiceProject implements ProjectService{
 	public void boardDelete(BoardDto bddto) throws Exception{
 		memberDao.boardDelete(bddto);
 	}
+	
+	// 글쓰기
+	@Override
+	public void writeAction(BoardDto bwrite) throws Exception {
+		memberDao.writeAction(bwrite);
+	}
+	
+	// 게시글 수정
+	@Override
+	public void BoardUpdate(BoardDto budto) throws Exception{
+		memberDao.BoardUpdate(budto);
+	}
+	
+	// 검색
+	@Override
+	public List<BoardDto> boardSearch(String keyword) throws Exception{
+		
+		return memberDao.boardSearch(keyword);
+	}
 }

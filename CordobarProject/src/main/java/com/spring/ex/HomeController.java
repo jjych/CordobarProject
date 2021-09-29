@@ -1,5 +1,6 @@
 package com.spring.ex;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.ex.dto.BoardDto;
@@ -20,6 +22,7 @@ import com.spring.ex.dto.MemberDto;
 import com.spring.ex.dto.PagingVO;
 import com.spring.ex.service.ProjectService;
 import com.spring.ex.service.ServiceProject;
+import com.spring.ex.utils.UploadFileUtils;
 
 @Controller
 public class HomeController {
@@ -37,14 +40,14 @@ public class HomeController {
 	@Autowired
 	private ServiceProject ServiceProject;
 	
-	// 로그인 페이지 (첫시작화면)
+	// 메인페이지 (첫시작화면)
 	@RequestMapping(value = "main", method = RequestMethod.GET)
 	public String main(){
 		
 		return "main";
 	}
 	
-	// 로그인시 보이는화면
+	// 로그인
 	@RequestMapping(value = "/LoginSuccess", method = RequestMethod.POST)
 	public String Login(MemberDto ldto, HttpServletRequest req, RedirectAttributes rttr) throws Exception {
 
@@ -101,11 +104,35 @@ public class HomeController {
 		
 	}
 	
-	// 게시글 글쓰기
+	// 게시글 글쓰기 페이지
 	@RequestMapping(value = "BoardWrite", method = RequestMethod.GET)
 	public String BoardWrite() {
 		
 		return "BoardWrite";
+	}
+	
+	// 글쓰기
+	@RequestMapping(value ="writeAction", method = RequestMethod.POST)
+	public String writeAction(BoardDto bwrite, MultipartFile file, HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
+		
+		//파일 업로드
+		String imgUploadPath = request.getSession().getServletContext().getRealPath("/resources/assets/img");
+		
+		String fileName = null;
+		
+		if(file != null) {
+			fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes());
+		}
+		else {
+			fileName = File.separator + "images" + File.separator + "none.png";
+		}
+		
+		bwrite.setbUrl(File.separator + File.separator + fileName);
+		bwrite.setbImg(File.separator + File.separator + "s" + File.separator + "s_" + fileName);
+		
+		ServiceProject.writeAction(bwrite);
+		
+		return "redirect:/BoardView";
 	}
 	
 	// 게시글 보기 GET
@@ -135,11 +162,35 @@ public class HomeController {
 		return path;
 	}
 	
-	// 게시글 수정하기
+	// 게시글 수정하기 페이지
 	@RequestMapping(value = "BoardUpdate", method = RequestMethod.GET)
 	public String BoardUpdate() {
 		
 		return "BoardUpdate";
+	}
+	
+	// 게시글 수정 하기
+	@RequestMapping(value="boardUpdate", method=RequestMethod.POST)
+	public String boardUpdate(BoardDto budto,MultipartFile file, HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
+		
+		//파일 재 업로드
+		String imgUploadPath = request.getSession().getServletContext().getRealPath("/resources/assets/img");
+				
+		String fileName = null;
+				
+		if(file != null) {
+			fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes());
+		}
+		else {
+			fileName = File.separator + "images" + File.separator + "none.png";
+		}
+		
+		budto.setbUrl(File.separator + File.separator + fileName);
+		budto.setbImg(File.separator + File.separator + "s" + File.separator + "s_" + fileName);
+		
+		ServiceProject.BoardUpdate(budto);
+		return "redirect:/BoardView";
+		
 	}
 	
 	// 게시글 삭제하기(글쓴 장본인이면 가능)
@@ -150,6 +201,26 @@ public class HomeController {
 		
 		return "redirect:/BoardView";
 			
+	}
+	
+	// 검색 결과 페이지
+	@RequestMapping(value = "/boardSearch", method = RequestMethod.GET)
+	public String Search(){
+		
+		return "Search";
+	}
+	
+	// 게시글 검색기능
+	@RequestMapping(value = "/boardSearch", method = RequestMethod.POST)
+	public String boardSearch(Model model, BoardDto dto, HttpServletRequest request) throws Exception {
+			
+		String keyword = request.getParameter("keyword");
+		
+		List<BoardDto> list = service.boardSearch(keyword);
+		
+		model.addAttribute("boardList",list);
+		
+		return "Search";
 	}
 	
 }

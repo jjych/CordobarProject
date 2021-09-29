@@ -80,7 +80,7 @@
 					<a href="BoardWrite" class="btn btn-info">글쓰기</a>
 			</div>
 				
-			<!-- 게시글 페이징 처리(기준 10개) -->
+			<%-- <!-- 게시글 페이징 처리(기준 10개) -->
 			<nav aria-label="Page navigation">
 				<ul class="pagination justify-content-center">
 
@@ -88,11 +88,11 @@
 				<c:choose>
 					<c:when test="${Paging.pageNo eq Paging.firstPageNo }">
 						<li class="page-item disabled"><a class="page-link"
-							href="BoardView?page=${Paging.prevPageNo}">이전</a></li>
+							href="Search?page=${Paging.prevPageNo}">이전</a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="page-item"><a class="page-link"
-							href="BoardView?page=${Paging.prevPageNo}">이전</a></li>
+							href="Search?page=${Paging.prevPageNo}">이전</a></li>
 					</c:otherwise>
 				</c:choose>
 				<!-- 페이지 갯수만큼 버튼 생성 -->
@@ -101,11 +101,11 @@
 					<c:choose>
 						<c:when test="${i eq Paging.pageNo }">
 							<li class="page-item disabled"><a class="page-link"
-								href="BoardView?page=${i}"><c:out value="${i}" /></a></li>
+								href="Search?page=${i}"><c:out value="${i}" /></a></li>
 						</c:when>
 						<c:otherwise>
 							<li class="page-item"><a class="page-link"
-								href="BoardView?page=${i}"><c:out value="${i}" /></a></li>
+								href="Search?page=${i}"><c:out value="${i}" /></a></li>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
@@ -114,15 +114,15 @@
 				<c:choose>
 					<c:when test="${Paging.pageNo eq Paging.finalPageNo }">
 						<li class="page-item disabled"><a class="page-link"
-							href="BoardView?page=${Paging.nextPageNo}">다음</a></li>
+							href="Search?page=${Paging.nextPageNo}">다음</a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="page-item"><a class="page-link"
-							href="BoardView?page=${Paging.nextPageNo}">다음</a></li>
+							href="Search?page=${Paging.nextPageNo}">다음</a></li>
 					</c:otherwise>
 				</c:choose>
 			</ul>
-			</nav>
+			</nav> --%>
 			</div>
         </section>
         

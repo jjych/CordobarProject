@@ -36,30 +36,48 @@
                   <!-- 글제목,작성자,작성일 라벨 -->
                  <thead>
                      <tr>
-                         <th colspan="4" style="background-color: #eeeeee;">글 제목</th>
-                         <th style="background-color: #eeeeee;">작성자</th>
-                         <th style="background-color: #eeeeee;">작성일</th>
+                         <th colspan="6" style="background-color: #eeeeee;">글보기</th>
                      </tr>
                  </thead>
                  
                  <!-- 글내용 -->
                  <tbody>
                      <tr>
-                         <td colspan="4">${board.getbTitle() }</td>
-                         <td>${board.getmName() }</td>
-                         <td>${board.getbDate() }</td>
+                     	 <th colspan="4" style="background-color: #eeeeee;">글 제목</th>
+                         <td colspan="2">${board.getbTitle() }</td>
                      </tr>
                      <tr>
-                         <td colspan="6" style="height: 300px; text-align: left;">
-                         	${board.getbNote() }
-                         </td>
+                     	 <th colspan="4" style="background-color: #eeeeee;">작성자</th>
+                         <td colspan="2">${board.getmName() }</td>
+                     </tr>
+                     <tr>
+                     	 <th colspan="4" style="background-color: #eeeeee;">작성일</th>
+                         <td colspan="2">${board.getbDate() }</td>
+                     </tr>
+                     <tr>
+                     	<th colspan="4" style="background-color: #eeeeee;">
+                     		글 내용
+                     	</th>
+                        <td colspan="2" style="text-align: center; width:1180px; max-height:800px;">
+                        	${board.getbNote()}
+                        </td>
                      </tr>
                      
                      <!-- 사진이미지 보이게하기 -->
                      <tr>
-                         <td colspan="6" style="height: 300px; background-color: #eeeeee; text-align: left;">
-                         	${board.getbImg() }
+                     <c:choose>
+                     	<c:when test = "${board.getbImg() eq null }">
+                     		<td colspan="6" style="max-height: 300px; background-color: #eeeeee; text-align: center;">
+                         	 첨부파일없음.
                          </td>
+                     	</c:when>
+                     	<c:when test = "${board.getbImg() ne null }">
+                     		<td colspan="6" style="height: 300px; background-color: #eeeeee; text-align: center;">
+                         	<img class="img-fluid" src="resources/assets/img${board.getbUrl() }"
+											style="width: 300px; height: 300px;" />
+                         </td>
+                     	</c:when>
+                     </c:choose>
                      </tr>
                  </tbody>
             </table>

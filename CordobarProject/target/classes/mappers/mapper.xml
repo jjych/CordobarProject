@@ -19,5 +19,22 @@
 <!-- 고객문의 게시글 삭제 delete문 -->
 <delete id="boardDelete"> delete from board where bNum = #{bNum} </delete>
 
+<!-- 글쓰기 -->
+<insert id="writeAction">
+	INSERT INTO board(bNum, mName, bTitle, bNote, bUrl, bImg)
+	values(0, #{mName}, #{bTitle}, #{bNote}, #{bUrl}, #{bImg})
+</insert>
+
+<!-- 글수정 -->
+<update id="boardUpdate">
+	UPDATE board SET 
+	mName = #{mName}, bTitle = #{bTitle}, bNote = #{bNote}, 
+	bUrl = #{bUrl}, bImg = #{bImg} WHERE bNum = #{bNum}
+</update>
+
+<!-- 검색 select문 -->
+<select id="boardSearch" resultType="BoardDto">SELECT * from board WHERE mName LIKE CONCAT('%',#{keyword},'%') OR bTitle LIKE CONCAT('%',#{keyword},'%') 
+</select>
+
 </mapper>
 

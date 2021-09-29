@@ -47,4 +47,20 @@ public class TotalDao implements MemberDao {
 	public void boardDelete(BoardDto bddto) throws Exception {
 		sqlSessionTemplate.delete(namespace + ".boardDelete", bddto);
 	}
+	
+	// 글쓰기
+	public void writeAction(BoardDto bwrite) throws Exception {
+		sqlSessionTemplate.insert(namespace + ".writeAction", bwrite);
+	}
+	
+	// 글수정
+	@Override
+	public void BoardUpdate(BoardDto budto) throws Exception{
+		sqlSessionTemplate.update(namespace + ".boardUpdate", budto);
+	}
+	
+	// 검색기능
+	public List<BoardDto> boardSearch(String keyword) throws Exception {
+		return sqlSessionTemplate.selectList(namespace + ".boardSearch",keyword);
+	}
 }
