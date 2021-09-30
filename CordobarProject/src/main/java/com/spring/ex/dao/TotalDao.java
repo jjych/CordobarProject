@@ -38,8 +38,8 @@ public class TotalDao implements MemberDao {
 	
 	// 게시판 세션주기
 	@Override
-	public BoardDto board2(BoardDto bbdto) throws Exception {
-		return sqlSessionTemplate.selectOne(namespace + ".board2", bbdto); 
+	public BoardDto board2(int bNum) throws Exception {
+		return sqlSessionTemplate.selectOne(namespace + ".board2", bNum); 
 	}
 	
 	// 게시글 삭제 delete문

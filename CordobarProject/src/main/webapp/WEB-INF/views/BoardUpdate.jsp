@@ -33,7 +33,7 @@
             	<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">글수정</h2>
 				<br>
 				<form method="post" action="boardUpdate" enctype="multipart/form-data">
-					<input type="hidden" id = "bNum" name="bNum" value="${board.bNum }">
+					<input type="hidden" id = "bNum" name="bNum" value="${board.getbNum() }">
 					<input type="hidden" id = "mName" name="mName" value = "${member.mName }">
 					<div class="" style="text-align:center;">
 						<table class="table" style="text-align: center; border: 1px solid #dddddd; background-color: #eeeeee;">
@@ -61,10 +61,23 @@
 								</tr>
 								<tr>
 									<td>
+										기존이미지
+									</td>
+									<td colspan="2">
+										<c:choose>
+											<c:when test = "${board.getbImg() eq null }">
+												파일없음.
+											</c:when>
+											<c:when test = "${board.getbImg() ne null }">
+												<span>${board.getbUrl() }</span>
+											</c:when>
+										</c:choose>
+									</td>
+									<td>
 										첨부파일
 									</td>
-									<td colspan="4">
-										<input type="file" id="bImg" name="file" accept="image/*">
+									<td colspan="2">
+										<input type="file" id="bImg" name="file" accept="image/*" onchange="setThumbnail(event);">
 										<script>
 											$("#bImg").change(function(){
 												if(this.files && this.files[0]) {
@@ -76,21 +89,45 @@
 												}
 											});
 										</script>
+										<!-- 시도의 흔적 -->
+										<!-- <script> 
+											document.getElementById('bImg').addEventListener('change', function(){
+												var filename = document.getElementById('fileName');
+												if(this.files[0] == undefined){
+													filename.innerText = '${board.getbUrl() }';
+													return;
+												}
+												filename.innerText = this.files[0].name;
+											});
+										</script> -->
 									</td>
 								</tr>
 								<tr>
 									<c:choose>
 										<c:when test = "${board.getbImg() eq null }">
+										<td colspan = "5"></td>
 										</c:when>
 										<c:when test = "${board.getbImg() ne null }">
-										<td colspan = "5" style="text-align:center;">
+										<td colspan = "3" style="text-align:center;">
 											<img class="img-fluid"
 											src="resources/assets/img${board.getbImg() }"
 											style="width: 300px; height: 300px;" />
 										</td>
+										<td colspan = "3" style="text-align:center;">
+											<div id="image_container" ></div>
+											<script> function setThumbnail(event) {
+													var reader = new FileReader(); 
+													reader.onload = function(event) { 
+														var img = document.createElement("img"); 
+														img.setAttribute("src", event.target.result);
+														document.querySelector("div#image_container").appendChild(img); };
+													reader.readAsDataURL(event.target.files[0]); }
+											</script>
+										</td>
 										</c:when>
 									</c:choose>
 								</tr>
+								
 							</tbody>
 						</table>
 					</div>

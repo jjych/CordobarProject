@@ -21,7 +21,7 @@ public interface MemberDao {
 	public int boardTotalCount() throws Exception;
 	
 	// 게시판 세션주기
-	public BoardDto board2(BoardDto bbdto) throws Exception;
+	public BoardDto board2(int bNum) throws Exception;
 	
 	// 게시글 삭제 dto
 	public void boardDelete(BoardDto bddto) throws Exception;

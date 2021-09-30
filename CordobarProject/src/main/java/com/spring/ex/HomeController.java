@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -40,11 +41,11 @@ public class HomeController {
 	@Autowired
 	private ServiceProject ServiceProject;
 	
-	// 메인페이지 (첫시작화면)
-	@RequestMapping(value = "main", method = RequestMethod.GET)
-	public String main(){
+	// 로그인페이지 (첫시작화면)
+	@RequestMapping(value = "login", method = RequestMethod.GET)
+	public String login(){
 		
-		return "main";
+		return "login";
 	}
 	
 	// 로그인
@@ -58,7 +59,7 @@ public class HomeController {
 		if (login == null) {
 		    session.setAttribute("member", null);
 		    rttr.addFlashAttribute("msg", false);
-		    path = "redirect:/main";
+		    path = "redirect:/login";
 		} else {
 		    session.setAttribute("member", login);
 		    rttr.addFlashAttribute("msg3", false);
@@ -73,7 +74,7 @@ public class HomeController {
 	public String logout(HttpSession session, RedirectAttributes rttr) throws Exception {
 		session.invalidate();
 		rttr.addFlashAttribute("msg2",false);
-		return "redirect:/main";
+		return "redirect:/login";
 	}
 	
 	// 게시글 볼수있는페이지 (로그인후 두번째 화면)
@@ -143,28 +144,24 @@ public class HomeController {
 				
 	}
 	
-	// 게시글 보기 POST
-	@RequestMapping(value = "BoardLook", method = RequestMethod.POST)
-	public String BoardLook(BoardDto bdto, HttpServletRequest req, RedirectAttributes rttr) throws Exception {
+	// 게시글 보기 GET
+	@RequestMapping(value = "BoardLook", method = RequestMethod.GET)
+	public String BoardLook(@RequestParam("bNum") int bNum, Model model) throws Exception {
 		
-		String path="";
-		HttpSession session2 = req.getSession();
-		BoardDto board = ServiceProject.board2(bdto);
-		if(board == null) {
-			session2.setAttribute("board", null);
-			rttr.addFlashAttribute("msg", false);
-			path = "redirect:/main";
-		} else {
-			session2.setAttribute("board", board);
-			path = "redirect:/BoardLook";
-		}
+		BoardDto board = ServiceProject.board2(bNum);
 		
-		return path;
+		model.addAttribute("board", board);
+		
+		return "BoardLook";
 	}
 	
 	// 게시글 수정하기 페이지
 	@RequestMapping(value = "BoardUpdate", method = RequestMethod.GET)
-	public String BoardUpdate() {
+	public String BoardUpdate(@RequestParam("bNum") int bNum, Model model) throws Exception{
+		
+		BoardDto board = ServiceProject.board2(bNum);
+		
+		model.addAttribute("board", board);
 		
 		return "BoardUpdate";
 	}
@@ -205,7 +202,11 @@ public class HomeController {
 	
 	// 검색 결과 페이지
 	@RequestMapping(value = "/boardSearch", method = RequestMethod.GET)
-	public String Search(){
+	public String boardSearch(@RequestParam("bNum") int bNum, Model model) throws Exception{
+		
+		BoardDto board = ServiceProject.board2(bNum);
+		
+		model.addAttribute("board", board);
 		
 		return "Search";
 	}

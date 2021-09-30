@@ -57,7 +57,8 @@
 								<tr>
 									<td>첨부파일</td>
 									<td colspan="4" style="text-align:left;">
-										<input type="file" id="bImg" name="file" accept="image/*">
+										<input type="file" id="bImg" name="file" accept="image/*" onchange="setThumbnail(event);">
+										<div id="image_container"></div>
 										<script>
 											$("#bImg").change(function(){
 												if(this.files && this.files[0]) {
@@ -69,6 +70,15 @@
 											}
 											});
 										</script>
+										<script> function setThumbnail(event) {
+													var reader = new FileReader(); 
+													reader.onload = function(event) { 
+														var img = document.createElement("img"); 
+														img.setAttribute("src", event.target.result);
+														document.querySelector("div#image_container").appendChild(img); };
+													reader.readAsDataURL(event.target.files[0]); }
+										</script>
+
 									</td>
 								</tr>
 							</tbody>

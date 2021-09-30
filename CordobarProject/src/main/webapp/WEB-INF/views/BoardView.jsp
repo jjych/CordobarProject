@@ -58,19 +58,14 @@
 						</tr>
 					</thead>
 					<tbody>
-					
-						<c:forEach items="${boardList}" var="board">
-						<form action="BoardLook" method="post">
+						<c:forEach items="${boardList}" var="board" varStatus="status">
 						 <input type="hidden" id="bNum" name="bNum" value="${board.getbNum() }">
-							<tr onclick="go();">
-								<td>${board.getbNum() }</td>
-								<td><input type="submit" class="btn" value="${board.getbTitle() }" ></td>
-								<%-- <td>${board.getbTitle() }</td> --%>
+							<tr onclick="location.href='BoardLook?bNum=${board.getbNum()}'">
+								<td><c:out value="${(Paging.totalCount - status.index)-((Paging.pageNo-1)*10)}"/></td>
+								<td>${board.getbTitle() }</td>
 								<td>${board.getmName() }</td>
 								<td>${board.getbDate() }</td>
-								
 							</tr>
-						</form>
 						</c:forEach>
 					</tbody>
 			</table>

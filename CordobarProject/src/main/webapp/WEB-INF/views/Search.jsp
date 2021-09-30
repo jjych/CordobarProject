@@ -59,16 +59,13 @@
 					</thead>
 					<tbody>
 					
-						<c:forEach items="${boardList}" var="board">
-						<form action="BoardLook" method="post">
+						<c:forEach items="${boardList}" var="board" varStatus="status">
 						 <input type="hidden" id="bNum" name="bNum" value="${board.getbNum() }">
-							<tr onclick="go();">
+							<tr onclick="location.href='BoardLook?bNum=${board.getbNum()}'">
 								<td>${board.getbNum() }</td>
-								<td><input type="submit" class="btn" value="${board.getbTitle() }" ></td>
-								<%-- <td>${board.getbTitle() }</td> --%>
+								<td>${board.getbTitle() }</td>
 								<td>${board.getmName() }</td>
 								<td>${board.getbDate() }</td>
-								
 							</tr>
 						</form>
 						</c:forEach>
@@ -77,10 +74,11 @@
 				
 			<!-- 글쓰기 버튼 -->
 			<div style="text-align:right;">
-					<a href="BoardWrite" class="btn btn-info">글쓰기</a>
+				<a href="BoardView" class="btn btn-primary">목록</a>
+				<a href="BoardWrite" class="btn btn-info">글쓰기</a>
 			</div>
 				
-			<%-- <!-- 게시글 페이징 처리(기준 10개) -->
+			<!-- 게시글 페이징 처리(기준 10개) -->
 			<nav aria-label="Page navigation">
 				<ul class="pagination justify-content-center">
 
@@ -122,7 +120,7 @@
 					</c:otherwise>
 				</c:choose>
 			</ul>
-			</nav> --%>
+			</nav>
 			</div>
         </section>
         

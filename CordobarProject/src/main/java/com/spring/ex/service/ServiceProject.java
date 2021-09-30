@@ -35,8 +35,8 @@ public class ServiceProject implements ProjectService{
 	
 	// 게시글 세션주기
 	@Override
-	public BoardDto board2(BoardDto bbdto) throws Exception {
-		return memberDao.board2(bbdto);
+	public BoardDto board2(int bNum) throws Exception {
+		return memberDao.board2(bNum);
 	}
 	
 	// 게시글 삭제하기

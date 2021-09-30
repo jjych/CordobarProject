@@ -16,7 +16,7 @@ public class UploadFileUtils {
 	public static String fileUpload(String uploadPath, String fileName, byte[] fileData)
 			throws Exception {
 
-		UUID uid = UUID.randomUUID();
+		UUID uid = UUID.randomUUID(); // UUID 구하기
 
 		String newFileName = uid + "_" + fileName;
 		String imgPath = uploadPath;

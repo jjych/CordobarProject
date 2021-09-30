@@ -99,7 +99,7 @@
 									}
 							</script>
        					</form>
-						<a href="BoardUpdate" class="btn btn-primary">수정</a>
+						<a href="BoardUpdate?bNum=${board.getbNum() }" class="btn btn-primary">수정</a>
               			<a href="BoardView" class="btn btn-primary">목록</a>
     				</c:when>
     				<c:when test="${board.getmName() ne sessionScope.member.getmName()}">
