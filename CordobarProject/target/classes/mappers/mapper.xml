@@ -33,7 +33,7 @@
 </update>
 
 <!-- 검색 select문 -->
-<select id="boardSearch" resultType="BoardDto">SELECT * from board WHERE mName LIKE CONCAT('%',#{keyword},'%') OR bTitle LIKE CONCAT('%',#{keyword},'%') 
+<select id="boardSearch" resultType="BoardDto">SELECT * from board WHERE mName LIKE CONCAT('%',#{keyword},'%') OR bTitle LIKE CONCAT('%',#{keyword},'%') OR bDate LIKE CONCAT('%',#{keyword},'%') 
 </select>
 
 </mapper>

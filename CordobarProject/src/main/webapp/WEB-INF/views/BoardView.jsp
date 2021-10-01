@@ -37,7 +37,7 @@
                 <form method="POST" action="boardSearch" id ="search" name="search" style="float:right;">
 					<div class="list-group" style="display:flex; flex-direction:row;">
 						<input type="text" class="form-control" placeholder="검색창" id="keyword" name="keyword" style="width: 230px; height: 50px;">
-						<input type="date" class="form-control" id="keyword" name="keyword" style="width: 180px; height: 50px;">
+						<!-- <input type="date" class="form-control" id="keyword" name="keyword" style="width: 180px; height: 50px;"> -->
 						<button type="submit" class="btn btn-default" style="width:50px; height:30px;"> 
 						<i class="fa fa-search" style="width: 50px; height: 30px; color: black;"></i></button>
 					</div>

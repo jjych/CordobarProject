@@ -39,7 +39,7 @@
 						<table class="table" style="text-align: center; border: 1px solid #dddddd; background-color: #eeeeee;">
 							<thead>
 								<tr>
-									<td colspan="5" style="background-color: #eeeeee; text-align: center;">게시글 수정</td>
+									<td colspan="6" style="background-color: #eeeeee; text-align: center;">게시글 수정</td>
 								</tr>
 							</thead>
 							<tbody>
@@ -47,7 +47,7 @@
 									<td>
 										제목
 									</td>
-									<td colspan="4">
+									<td colspan="5">
 										<input type="text" class="form-control" value="${board.getbTitle() }" id="bTitle" name="bTitle" maxlength="50" />
 									</td>
 								</tr>
@@ -55,7 +55,7 @@
 									<td>
 										내용
 									</td>
-									<td colspan="4">
+									<td colspan="5">
 										<textarea class="form-control" id="bNote" name="bNote" maxlength="2048px;" style="height: 350px; resize: none;">${board.getbNote() }</textarea>
 									</td>
 								</tr>
@@ -89,17 +89,6 @@
 												}
 											});
 										</script>
-										<!-- 시도의 흔적 -->
-										<!-- <script> 
-											document.getElementById('bImg').addEventListener('change', function(){
-												var filename = document.getElementById('fileName');
-												if(this.files[0] == undefined){
-													filename.innerText = '${board.getbUrl() }';
-													return;
-												}
-												filename.innerText = this.files[0].name;
-											});
-										</script> -->
 									</td>
 								</tr>
 								<tr>
@@ -114,7 +103,7 @@
 											style="width: 300px; height: 300px;" />
 										</td>
 										<td colspan = "3" style="text-align:center;">
-											<div id="image_container" ></div>
+											<div id="image_container"></div>
 											<script> function setThumbnail(event) {
 													var reader = new FileReader(); 
 													reader.onload = function(event) { 
