@@ -1,6 +1,7 @@
 package com.spring.ex;
 
 import java.io.File;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.ex.dto.BoardDto;
@@ -107,31 +110,59 @@ public class HomeController {
 	
 	// 게시글 글쓰기 페이지
 	@RequestMapping(value = "BoardWrite", method = RequestMethod.GET)
-	public String BoardWrite() {
+	public String BoardWrite(Model model, HttpServletRequest request) throws Exception {
+		
+		String userAgent = request.getHeader("User-Agent");
+		if(userAgent.indexOf("mobile") > -1) {
+			model.addAttribute("mobile", "mobile");
+		}
 		
 		return "BoardWrite";
 	}
 	
 	// 글쓰기
 	@RequestMapping(value ="writeAction", method = RequestMethod.POST)
-	public String writeAction(BoardDto bwrite, MultipartFile file, HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
+	public String writeAction(Model model, BoardDto bwrite, MultipartFile file, MultipartHttpServletRequest mre, HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
 		
 		//파일 업로드
 		String imgUploadPath = request.getSession().getServletContext().getRealPath("/resources/assets/img");
+		String image = request.getParameter("loadImage");
+		String userAgent = request.getHeader("User-Agent");
 		
-		String fileName = null;
-		
-		if(file != null) {
-			fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes());
+		// 모바일 일 경우
+		if(userAgent.indexOf("mobile") > -1) {
+			model.addAttribute("mobile", "mobile");
+			String fileName = null;
+			if(image != null && image != "") {
+				byte[] decodedBytes = Base64.getDecoder().decode(image);
+				
+				fileName = UploadFileUtils.fileUpload(imgUploadPath, "mobile", decodedBytes);
+				
+				bwrite.setbUrl(File.separator + File.separator + fileName);
+				bwrite.setbImg(File.separator + File.separator + "s" + File.separator + "s_" + fileName);
+				
+				ServiceProject.writeAction(bwrite);
+			}
 		}
-		else {
-			fileName = File.separator + "images" + File.separator + "none.png";
+		// 웹사이트 일경우
+		else
+		{
+			String fileName = null;
+			
+			file = mre.getFile("bImg2");
+			
+			if(file != null) {
+				fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes());
+			}
+			else {	
+				fileName = File.separator + "images" + File.separator + "none.png";
+			}
+			
+			bwrite.setbUrl(File.separator + File.separator + fileName);
+			bwrite.setbImg(File.separator + File.separator + "s" + File.separator + "s_" + fileName);
+			
+			ServiceProject.writeAction(bwrite);
 		}
-		
-		bwrite.setbUrl(File.separator + File.separator + fileName);
-		bwrite.setbImg(File.separator + File.separator + "s" + File.separator + "s_" + fileName);
-		
-		ServiceProject.writeAction(bwrite);
 		
 		return "redirect:/BoardView";
 	}

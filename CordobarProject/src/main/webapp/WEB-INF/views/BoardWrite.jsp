@@ -21,6 +21,10 @@
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="resources/css/styles.css" rel="stylesheet" />
+        
+        <!-- jQuery 쓸 때 꼭 필요함. -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     </head>
     
     <body id="page-top">
@@ -54,33 +58,40 @@
 										<textarea class="form-control" placeholder="글 내용" id="bNote" name="bNote" maxlength="2048px;" style="height: 350px; resize: none;"></textarea>
 									</td>
 								</tr>
-								<tr>
+								<c:choose>
+									<c:when test = "${mobile eq null }">
+										<tr>
 									<td>첨부파일</td>
 									<td colspan="4" style="text-align:left;">
-										<input type="file" id="bImg" name="file" accept="image/*" onchange="setThumbnail(event);">
-										<div id="image_container"></div>
+										<input type="file" id="bImg2" name="bImg2" accept="image/*">
+										<div class="select_img"><img src="" /></div>
+										<!-- 웹일경우 이미지 저장 -->
 										<script>
-											$("#bImg").change(function(){
-												if(this.files && this.files[0]) {
-											var reader = new FileReader;
-											reader.onload = function(data) {
+											$("#bImg2").change(function(){
+											if(this.files && this.files[0]) {
+												var reader = new FileReader;
+												reader.onload = function(data) {
 												$(".select_img img").attr("src", data.target.result).width(500);        
 											}
-											reader.readAsDataURL(this.files[0]);
+												reader.readAsDataURL(this.files[0]);
 											}
 											});
 										</script>
-										<script> function setThumbnail(event) {
-													var reader = new FileReader(); 
-													reader.onload = function(event) { 
-														var img = document.createElement("img"); 
-														img.setAttribute("src", event.target.result);
-														document.querySelector("div#image_container").appendChild(img); };
-													reader.readAsDataURL(event.target.files[0]); }
-										</script>
-
-									</td>
-								</tr>
+										</td>
+										</tr>
+									</c:when>
+									<c:when test = "${mobile ne null }">
+										<tr>
+										<td>첨부파일</td>
+								 			<td colspan="4" style="text-align:left;">
+											<input type ="button" onclick="test();" value ="사진찍기"> <br><br>
+    										<input type = "button" onclick="test2();" value = "갤러리보기"> <br>
+    										<div class="select_img"><img id ="myImage" src="" style="width:500px; max-height:600px;"/></div>
+											</td>
+										</tr>
+										<input type="hidden" id="loadImage" name ="loadImage" value="">
+									</c:when>
+								</c:choose>
 							</tbody>
 						</table>
 					</div>
@@ -89,13 +100,65 @@
 						<input type="submit" class="btn btn-info" value="글쓰기" />
 					</div>
 				</form>
+				
+    			<script>
+    			var agent = navigator.userAgent.toLowerCase();
+    				if(agent.indexOf('mobile') != -1){
+    					var s = document.createElement("script");
+    					s.type = "text/javascript";
+    					s.src = '<c:url value = "resources/js/cordova.js"/>';
+    					$("head").append(s);
+    				}
+    			</script>
+    			
+    			<script>
+
+				// device 돌리기
+    			$(document).ready(function() {
+    				document.addEventListener("deviceready",onDeviceReady,false);
+
+       				function onDeviceReady() {
+        			}
+    			});
+
+				// 사진찍기 버튼 누를경우
+   				function test(){
+    				navigator.camera.getPicture(onSuccess, onFail, { 
+    					quality: 50,
+        				destinationType: Camera.DestinationType.DATA_URL,
+        				sourceType : Camera.PictureSourceType.CAMERA,
+        				encodingType : Camera.EncodingType.JPEG
+    				});
+    			}
+    
+				// 갤러리 버튼 누를경우
+    			function test2(){
+    				navigator.camera.getPicture(onSuccess, onFail, { 
+    					quality: 50,
+        				destinationType: Camera.DestinationType.DATA_URL,
+        				sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
+        				encodingType : Camera.EncodingType.JPEG
+    			});
+   				}
+
+				// 버튼이 성공적으로 되었을경우 이미지 데이터값을 담아라
+    			function onSuccess(imageData) {
+        			var image = document.getElementById('myImage');
+        			image.src = "data:image/jpeg;base64," + imageData;
+        			$('#loadImage').val(imageData);
+    			}
+
+				// 버튼이 성공적이지 못했을경우 에러메세지
+    			function onFail(message) {
+        			alert('Failed because: ' + message);
+    			}
+    			</script>
 			</div>
         </section>
         
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     </body>
 </html>
