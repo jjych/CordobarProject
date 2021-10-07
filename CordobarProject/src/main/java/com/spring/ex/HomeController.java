@@ -188,7 +188,12 @@ public class HomeController {
 	
 	// 게시글 수정하기 페이지
 	@RequestMapping(value = "BoardUpdate", method = RequestMethod.GET)
-	public String BoardUpdate(@RequestParam("bNum") int bNum, Model model) throws Exception{
+	public String BoardUpdate(@RequestParam("bNum") int bNum, Model model,HttpServletRequest request) throws Exception{
+		
+		String userAgent = request.getHeader("User-Agent");
+		if(userAgent.indexOf("mobile") > -1) {
+			model.addAttribute("mobile", "mobile");
+		}
 		
 		BoardDto board = ServiceProject.board2(bNum);
 		
@@ -199,24 +204,48 @@ public class HomeController {
 	
 	// 게시글 수정 하기
 	@RequestMapping(value="boardUpdate", method=RequestMethod.POST)
-	public String boardUpdate(BoardDto budto,MultipartFile file, HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
+	public String boardUpdate(Model model,BoardDto budto,MultipartFile file, MultipartHttpServletRequest mre, HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
 		
 		//파일 재 업로드
 		String imgUploadPath = request.getSession().getServletContext().getRealPath("/resources/assets/img");
-				
-		String fileName = null;
-				
-		if(file != null) {
-			fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes());
+		String image = request.getParameter("loadImage");
+		String userAgent = request.getHeader("User-Agent");
+		
+		// 모바일 일 경우
+		if(userAgent.indexOf("mobile") > -1) {
+			model.addAttribute("mobile", "mobile");
+			String fileName = null;
+			if(image != null && image != "") {
+				byte[] decodedBytes = Base64.getDecoder().decode(image);
+						
+				fileName = UploadFileUtils.fileUpload(imgUploadPath, "mobile", decodedBytes);
+						
+				budto.setbUrl(File.separator + File.separator + fileName);
+				budto.setbImg(File.separator + File.separator + "s" + File.separator + "s_" + fileName);
+						
+				ServiceProject.BoardUpdate(budto);
+			}
 		}
+		
+		// 모바일이 아닐경우
 		else {
-			fileName = File.separator + "images" + File.separator + "none.png";
+			String fileName = null;
+			
+			file = mre.getFile("baa");
+					
+			if(file != null) {
+				fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes());
+			}
+			else {
+				fileName = File.separator + "images" + File.separator + "none.png";
+			}
+			
+			budto.setbUrl(File.separator + File.separator + fileName);
+			budto.setbImg(File.separator + File.separator + "s" + File.separator + "s_" + fileName);
+			
+			ServiceProject.BoardUpdate(budto);
 		}
 		
-		budto.setbUrl(File.separator + File.separator + fileName);
-		budto.setbImg(File.separator + File.separator + "s" + File.separator + "s_" + fileName);
-		
-		ServiceProject.BoardUpdate(budto);
 		return "redirect:/BoardView";
 		
 	}

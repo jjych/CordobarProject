@@ -84,39 +84,39 @@
 
 				<!-- 첫 페이지면 Disabled 아니라면 Enabled -->
 				<c:choose>
-					<c:when test="${Paging.pageNo eq Paging.firstPageNo }">
+					<c:when test="${Paging2.pageNo eq Paging2.firstPageNo }">
 						<li class="page-item disabled"><a class="page-link"
-							href="Search?page=${Paging.prevPageNo}">이전</a></li>
+							href="boardSearch?page=${Paging2.prevPageNo}">이전</a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="page-item"><a class="page-link"
-							href="Search?page=${Paging.prevPageNo}">이전</a></li>
+							href="boardSearch?page=${Paging2.prevPageNo}">이전</a></li>
 					</c:otherwise>
 				</c:choose>
 				<!-- 페이지 갯수만큼 버튼 생성 -->
-				<c:forEach var="i" begin="${Paging.startPageNo }"
-					end="${Paging.endPageNo }" step="1">
+				<c:forEach var="i" begin="${Paging2.startPageNo }"
+					end="${Paging2.endPageNo }" step="1">
 					<c:choose>
-						<c:when test="${i eq Paging.pageNo }">
+						<c:when test="${i eq Paging2.pageNo }">
 							<li class="page-item disabled"><a class="page-link"
-								href="Search?page=${i}"><c:out value="${i}" /></a></li>
+								href="boardSearch?page=${i}"><c:out value="${i}" /></a></li>
 						</c:when>
 						<c:otherwise>
 							<li class="page-item"><a class="page-link"
-								href="Search?page=${i}"><c:out value="${i}" /></a></li>
+								href="boardSearch?page=${i}"><c:out value="${i}" /></a></li>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
 				
 				<!-- 마지막 페이지면 Disabled 아니라면 Enabled -->
 				<c:choose>
-					<c:when test="${Paging.pageNo eq Paging.finalPageNo }">
+					<c:when test="${Paging2.pageNo eq Paging2.finalPageNo }">
 						<li class="page-item disabled"><a class="page-link"
-							href="Search?page=${Paging.nextPageNo}">다음</a></li>
+							href="boardSearch?page=${Paging2.nextPageNo}">다음</a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="page-item"><a class="page-link"
-							href="Search?page=${Paging.nextPageNo}">다음</a></li>
+							href="boardSearch?page=${Paging2.nextPageNo}">다음</a></li>
 					</c:otherwise>
 				</c:choose>
 			</ul>

@@ -21,6 +21,33 @@
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="resources/css/styles.css" rel="stylesheet" />
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        
+        <!-- input file 타입에 css 주기 -->
+        <style>
+        	.box-file-input label{
+  				display:inline-block;
+ 				background:#23a3a7;
+  				color:#fff;
+  				padding:0px 15px;
+ 				line-height:35px;
+  				cursor:pointer;
+			}
+
+			.box-file-input label:after{
+  				content:"파일등록";
+			}
+
+			.box-file-input .file-input{
+  				display:none;
+			}
+
+			.box-file-input .filename{
+  				display:inline-block;
+  				padding-left:10px;
+			}
+        </style>
     </head>
     
     <body id="page-top">
@@ -44,7 +71,7 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td>
+									<td colspan="1">
 										제목
 									</td>
 									<td colspan="5">
@@ -52,70 +79,81 @@
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td colspan="1">
 										내용
 									</td>
 									<td colspan="5">
 										<textarea class="form-control" id="bNote" name="bNote" maxlength="2048px;" style="height: 350px; resize: none;">${board.getbNote() }</textarea>
 									</td>
 								</tr>
-								<tr>
-									<td>
-										기존이미지
-									</td>
-									<td colspan="2">
-										<c:choose>
-											<c:when test = "${board.getbImg() eq null }">
-												파일없음.
-											</c:when>
-											<c:when test = "${board.getbImg() ne null }">
-												<span>${board.getbUrl() }</span>
-											</c:when>
-										</c:choose>
-									</td>
-									<td>
-										첨부파일
-									</td>
-									<td colspan="2">
-										<input type="file" id="bImg" name="file" accept="image/*" onchange="setThumbnail(event);">
-										<script>
-											$("#bImg").change(function(){
-												if(this.files && this.files[0]) {
-													var reader = new FileReader;
-													reader.onload = function(data) {
-														$(".select_img img").attr("src", data.target.result).width(500);        
-													}
-													reader.readAsDataURL(this.files[0]);
-												}
-											});
-										</script>
-									</td>
-								</tr>
-								<tr>
-									<c:choose>
-										<c:when test = "${board.getbImg() eq null }">
-										<td colspan = "5"></td>
-										</c:when>
-										<c:when test = "${board.getbImg() ne null }">
-										<td colspan = "3" style="text-align:center;">
-											<img class="img-fluid"
-											src="resources/assets/img${board.getbImg() }"
-											style="width: 300px; height: 300px;" />
-										</td>
-										<td colspan = "3" style="text-align:center;">
-											<div id="image_container"></div>
-											<script> function setThumbnail(event) {
-													var reader = new FileReader(); 
-													reader.onload = function(event) { 
-														var img = document.createElement("img"); 
-														img.setAttribute("src", event.target.result);
-														document.querySelector("div#image_container").appendChild(img); };
-													reader.readAsDataURL(event.target.files[0]); }
-											</script>
-										</td>
-										</c:when>
-									</c:choose>
-								</tr>
+								<!-- 웹으로 접속했을 경우 mobile이 null일 경우 -->
+								<c:choose>
+									<c:when test ="${mobile eq null }">
+										<tr>
+											<td colspan="1">첨부파일</td>
+											
+											<td colspan="5">
+									    	<!-- id는 jQuery 사용할때 , name은 controller에 값 호출할때 사용 그래서 둘이 이름이 같으면 안되는것.-->
+									    		<div class="box-file-input">
+									    			<label><input type="file" id ="bImg" name="baa" class="file-input" accept="image/*"></label>
+									    			<span class="filename">${board.getbUrl() }
+									    		</div>
+												<script>
+													$("#bImg").change(function(){
+														if(this.files && this.files[0]) {
+														var reader = new FileReader;
+														reader.onload = function(data) {
+															$(".select_img img").attr("src", data.target.result).width(300);        
+														}
+														reader.readAsDataURL(this.files[0]);
+														}
+													});
+												</script>
+												<!-- input file타입 꾸미기 -->
+												<script>
+												$(document).on("change", ".file-input", function(){
+													   
+												    $filename = $(this).val();
+
+												    if($filename == "")
+												      $filename = "${board.getbUrl() }";
+
+												    $(".filename").text($filename);
+
+												  })
+												</script>
+											</td>
+										</tr>
+										<tr>	
+											<td colspan = "6" style="text-align:center;">
+												<div class="select_img"><img src="" style="max-width:300px; max-height:300px;" /></div>
+											</td>
+										</tr>
+									</c:when>
+									<c:when test ="${mobile ne null }">
+										<tr>
+										<td>첨부파일</td>
+								 			<td colspan="6" style="text-align:left;">
+												<input type ="button" onclick="test();" value ="사진찍기"> <br><br>
+    											<input type = "button" onclick="test2();" value = "갤러리보기"> <br>
+    											<div class="select_img"><img id ="myImage" src="" style="width:500px; max-height:600px;"/></div>
+    											<script>
+												$(document).on("change", ".file-input", function(){
+													   
+												    $filename = $(this).val();
+
+												    if($filename == "")
+												      $filename = "${board.getbUrl() }";
+
+												    $(".filename").text($filename);
+
+												  })
+												</script>
+											</td>
+										</tr>
+										<input type="hidden" id="loadImage" name ="loadImage" value="">
+									</c:when>
+								</c:choose>
 								
 							</tbody>
 						</table>
@@ -125,6 +163,59 @@
 						<input type="submit" class="btn btn-info" value="수정완료" />
 					</div>
 				</form>
+				
+				<script>
+    			var agent = navigator.userAgent.toLowerCase();
+    				if(agent.indexOf('mobile') != -1){
+    					var s = document.createElement("script");
+    					s.type = "text/javascript";
+    					s.src = '<c:url value = "resources/js/cordova.js"/>';
+    					$("head").append(s);
+    				}
+    			</script>
+    			
+    			<script>
+
+				// device 돌리기
+    			$(document).ready(function() {
+    				document.addEventListener("deviceready",onDeviceReady,false);
+
+       				function onDeviceReady() {
+        			}
+    			});
+
+				// 사진찍기 버튼 누를경우
+   				function test(){
+    				navigator.camera.getPicture(onSuccess, onFail, { 
+    					quality: 50,
+        				destinationType: Camera.DestinationType.DATA_URL,
+        				sourceType : Camera.PictureSourceType.CAMERA,
+        				encodingType : Camera.EncodingType.JPEG
+    				});
+    			}
+    
+				// 갤러리 버튼 누를경우
+    			function test2(){
+    				navigator.camera.getPicture(onSuccess, onFail, { 
+    					quality: 50,
+        				destinationType: Camera.DestinationType.DATA_URL,
+        				sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
+        				encodingType : Camera.EncodingType.JPEG
+    			});
+   				}
+
+				// 버튼이 성공적으로 되었을경우 이미지 데이터값을 담아라
+    			function onSuccess(imageData) {
+        			var image = document.getElementById('myImage');
+        			image.src = "data:image/jpeg;base64," + imageData;
+        			$('#loadImage').val(imageData);
+    			}
+
+				// 버튼이 성공적이지 못했을경우 에러메세지
+    			function onFail(message) {
+        			alert('Failed because: ' + message);
+    			}
+    			</script>
 			</div>
         </section>
         

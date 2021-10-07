@@ -64,7 +64,7 @@
 									<td>첨부파일</td>
 									<td colspan="4" style="text-align:left;">
 										<input type="file" id="bImg2" name="bImg2" accept="image/*">
-										<div class="select_img"><img src="" /></div>
+										<div class="select_img"><img src="" style="max-width:300px; max-height:300px;"/></div>
 										<!-- 웹일경우 이미지 저장 -->
 										<script>
 											$("#bImg2").change(function(){
