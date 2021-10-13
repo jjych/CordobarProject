@@ -275,7 +275,14 @@ public class HomeController {
 	@RequestMapping(value = "/boardSearch", method = RequestMethod.POST)
 	public String boardSearch(Model model, BoardDto dto, HttpServletRequest request) throws Exception {
 			
-		String keyword = request.getParameter("keyword");
+		String keyword;
+		
+		if(request.getParameter("keyword") == null || request.getParameter("keyword") == "") {
+			keyword = request.getParameter("date");
+		}
+		else {
+			keyword = request.getParameter("keyword");
+		}
 		
 		List<BoardDto> list = service.boardSearch(keyword);
 		

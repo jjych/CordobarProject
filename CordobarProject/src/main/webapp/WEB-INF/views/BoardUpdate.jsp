@@ -96,7 +96,7 @@
 									    	<!-- id는 jQuery 사용할때 , name은 controller에 값 호출할때 사용 그래서 둘이 이름이 같으면 안되는것.-->
 									    		<div class="box-file-input">
 									    			<label><input type="file" id ="bImg" name="baa" class="file-input" accept="image/*"></label>
-									    			<span class="filename">${board.getbUrl() }
+									    			<span class="filename">${board.getbUrl() }</span>
 									    		</div>
 												<script>
 													$("#bImg").change(function(){
